@@ -25,12 +25,12 @@ def response(flow: http.HTTPFlow):
 	white_url_list = ['https://qieman.com/pmdj/v2/long-win/ca/assets-summary', 'https://qieman.com/pmdj/v2/asset/ca/detail']
 	skip = True
 	for item in white_url_list:
-		if flow.request.url.startswith("https://qieman.com/pmdj/v2/long-win/ca/assets-summary"):
+		if flow.request.url.startswith(item):
 			skip = False
 			break
-		
+
 	if skip:
-		print("非白名单链接，跳过")
+		print("非白名单链接，跳过 " + flow.request.url)
 		return
 		
 	#if not flow.request.url.startswith("https://qieman.com/pmdj/v2/long-win/ca/assets-summary"):

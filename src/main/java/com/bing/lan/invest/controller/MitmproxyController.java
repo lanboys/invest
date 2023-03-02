@@ -2,9 +2,9 @@ package com.bing.lan.invest.controller;
 
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
-import com.bing.lan.invest.utils.UrlUtil;
+import com.bing.lan.invest.service.MitmproxyService;
 
-import org.springframework.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MitmproxyController {
 
+    @Autowired
+    MitmproxyService mitmproxyService;
+
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public String file(@RequestParam MultipartFile file, @RequestParam String accountCode) {
         try {
             byte[] bytes = file.getBytes();
             AssertBean assertBean = JSONUtil.toBean(new String(bytes), AssertBean.class);
+            log.info("资产数据：{}", assertBean);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,18 +52,7 @@ public class MitmproxyController {
             log.info("skip...");
             return "skip";
         }
-        longWin(mitmproxyDto);
+        mitmproxyService.parseMitmproxyData(mitmproxyDto);
         return "ok";
-    }
-
-    public void longWin(MitmproxyDto mitmproxyDto) {
-        UrlUtil.UrlEntity urlEntity = UrlUtil.parse(mitmproxyDto.getUrl());
-        if ("https://qieman.com/pmdj/v2/long-win/ca/assets-summary".equals(urlEntity.getUrl())
-                && !ObjectUtils.isEmpty(mitmproxyDto.getBody())) {
-            log.info("资产数据：{}", mitmproxyDto);
-            log.info("解析前。。。");
-            AssertBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AssertBean.class);
-            log.info("解析后。。。");
-        }
     }
 }
