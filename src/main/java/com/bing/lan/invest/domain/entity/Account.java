@@ -2,8 +2,10 @@ package com.bing.lan.invest.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.bing.lan.invest.base.BaseEntity;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -48,7 +50,5 @@ public class Account extends BaseEntity {
     private BigDecimal custPart;
 
     @ApiModelProperty("计划份数")
-    private Long planPart;
-
-
+    private BigDecimal planPart;
 }

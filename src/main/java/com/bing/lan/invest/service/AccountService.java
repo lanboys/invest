@@ -1,5 +1,8 @@
 package com.bing.lan.invest.service;
 
+import com.bing.lan.invest.domain.dto.AssertBean;
+import com.bing.lan.invest.domain.dto.MitmproxyDto;
+import com.bing.lan.invest.domain.entity.Account;
 
 /**
  * <p>
@@ -10,5 +13,9 @@ package com.bing.lan.invest.service;
  * @since 2023-03-02
  */
 public interface AccountService {
+
+    public Account getByAccountCode(String accountCode);
+
+    public void updateAssert(String accountCode, AssertBean assertBean);
 
 }

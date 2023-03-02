@@ -2,6 +2,7 @@ package com.bing.lan.invest.controller;
 
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
+import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * </p>
  *
  * @author oopcoder
- * @since 2023-02-07
+ * @since 2023-03-01
  */
 @RestController
 @RequestMapping("/mitmproxy")
@@ -33,12 +34,16 @@ public class MitmproxyController {
     @Autowired
     MitmproxyService mitmproxyService;
 
+    @Autowired
+    AccountService accountService;
+
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public String file(@RequestParam MultipartFile file, @RequestParam String accountCode) {
         try {
             byte[] bytes = file.getBytes();
             AssertBean assertBean = JSONUtil.toBean(new String(bytes), AssertBean.class);
             log.info("资产数据：{}", assertBean);
+            accountService.updateAssert(accountCode, assertBean);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

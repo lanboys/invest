@@ -2,9 +2,7 @@ package com.bing.lan.invest.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -18,8 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/account")
 public class AccountController {
 
-    @RequestMapping(value = "/file", method = RequestMethod.POST)
-    public String file(String accountCode) {
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public String test(String accountCode) {
         return accountCode;
     }
 }

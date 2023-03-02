@@ -2,9 +2,11 @@ package com.bing.lan.invest.service.impl;
 
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
+import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
 import com.bing.lan.invest.utils.UrlUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class MitmproxyServiceImpl implements MitmproxyService {
 
+    @Autowired
+    AccountService accountService;
+
     @Override
     @Async
     public void parseMitmproxyData(MitmproxyDto mitmproxyDto) {
@@ -33,6 +38,7 @@ public class MitmproxyServiceImpl implements MitmproxyService {
             log.info("解析前。。。");
             AssertBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AssertBean.class);
             log.info("解析后。。。");
+            accountService.updateAssert(urlEntity.getParam("capitalAccountId"), assertBean);
             return;
         }
 
