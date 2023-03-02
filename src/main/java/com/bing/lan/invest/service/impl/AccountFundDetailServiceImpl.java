@@ -44,10 +44,19 @@ public class AccountFundDetailServiceImpl implements AccountFundDetailService {
     }
 
     @Override
-    public boolean updateCleanFlagByAccountId(Integer accountId, Boolean cleanFlag) {
+    public boolean resetByAccountId(Integer accountId) {
         LambdaUpdateWrapper<AccountFundDetail> update = Wrappers.lambdaUpdate(AccountFundDetail.class)
                 .eq(AccountFundDetail::getAccountId, accountId)
-                .set(AccountFundDetail::getCleanFlag, cleanFlag);
+                .set(AccountFundDetail::getCleanFlag, true)
+                .set(AccountFundDetail::getTotalAssert, 0)
+                .set(AccountFundDetail::getHoldingProfit, 0)
+                .set(AccountFundDetail::getHoldingCost, 0)
+                .set(AccountFundDetail::getCustPart, 0)
+                .set(AccountFundDetail::getPlanPart, 0)
+                .set(AccountFundDetail::getTotalShare, 0)
+                .set(AccountFundDetail::getFundNav, 0)
+                .set(AccountFundDetail::getCustUnitValue, 0);
+
         return dao.update(update);
     }
 }

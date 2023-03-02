@@ -15,6 +15,6 @@ public interface AccountFundDetailService {
 
     public AccountFundDetail saveOrUpdate(AccountFundDetailDto dto);
 
-    public boolean updateCleanFlagByAccountId(Integer accountId, Boolean cleanFlag);
+    public boolean resetByAccountId(Integer accountId);
 
 }

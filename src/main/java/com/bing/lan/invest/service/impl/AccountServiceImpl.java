@@ -5,27 +5,21 @@ import com.bing.lan.invest.dao.AccountDao;
 import com.bing.lan.invest.domain.dto.AccountFundDetailDto;
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.FundDto;
-import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.domain.entity.Account;
 import com.bing.lan.invest.domain.entity.Fund;
 import com.bing.lan.invest.service.AccountFundDetailService;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.FundService;
-import com.bing.lan.invest.utils.UrlUtil;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -68,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
         account.setPlanPart(new BigDecimal(assertBean.getTotalPlanUnit()));
         dao.saveOrUpdate(account);
 
-        accountFundDetailService.updateCleanFlagByAccountId(account.getId(), true);
+        accountFundDetailService.resetByAccountId(account.getId());
 
         for (AssertBean.PlanAssetListDto planAssetListDto : assertBean.getPlanAssetList()) {
             for (AssertBean.PlanAssetListDto.AssetListDto assetListDto : planAssetListDto.getAssetList()) {
