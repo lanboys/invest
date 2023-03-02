@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 """
-mitmproxy -s xxx\qieman.py
-mitmweb -s xxx\qieman.py
-mitmdump -s xxx\qieman.py
+mitmproxy -s E:\workspace\my-workspace\invest-workspace\invest\mitmproxy\qieman.py
+mitmweb -s E:\workspace\my-workspace\invest-workspace\invest\mitmproxy\qieman.py
+mitmdump -s E:\workspace\my-workspace\invest-workspace\invest\mitmproxy\qieman.py
 """
 from mitmproxy import http
 import json
@@ -22,7 +22,9 @@ def response(flow: http.HTTPFlow):
 	#	return
 		
 		
-	white_url_list = ['https://qieman.com/pmdj/v2/long-win/ca/assets-summary', 'https://qieman.com/pmdj/v2/asset/ca/detail']
+	white_url_list = ['https://qieman.com/pmdj/v2/long-win/ca/assets-summary',
+	                    'https://qieman.com/pmdj/v2/asset/ca/detail',
+	                    'https://qieman.com/pmdj/v2/wallet/turnovers']
 	skip = True
 	for item in white_url_list:
 		if flow.request.url.startswith(item):
