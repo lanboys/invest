@@ -1,7 +1,8 @@
-package com.bing.lan.invest.service;
+package com.bing.lan.invest.service.impl;
 
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
+import com.bing.lan.invest.service.MitmproxyService;
 import com.bing.lan.invest.utils.UrlUtil;
 
 import org.springframework.scheduling.annotation.Async;
