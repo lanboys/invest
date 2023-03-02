@@ -1,8 +1,10 @@
 package com.bing.lan.invest.mybatis;
 
+import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -23,7 +25,8 @@ public class MybatisPlusGenerator {
         // String projectPath = new File("").getCanonicalPath();
         String projectPath = System.getProperty("user.dir");
 
-        FastAutoGenerator.create(url, "root", "admin").globalConfig(builder -> {
+        FastAutoGenerator.create(url, "root", "admin")
+                .globalConfig(builder -> {
 
                     builder.author("oopcoder") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
@@ -39,7 +42,9 @@ public class MybatisPlusGenerator {
 
                 }).strategyConfig(builder -> {
 
-                    builder.addInclude("invest_fund_detail") // 设置需要生成的表名
+                    builder.addInclude("invest_account") // 设置需要生成的表名
+                            .addInclude("invest_fund") // 设置需要生成的表名
+                            .addInclude("invest_account_fund_detail") // 设置需要生成的表名
                             .addTablePrefix("invest_", "c_"); // 设置过滤表前缀
 
                     builder.entityBuilder()
@@ -54,11 +59,11 @@ public class MybatisPlusGenerator {
                             .enableMapperAnnotation();
 
                     builder.serviceBuilder()
-                            .enableFileOverride()
+                            // .enableFileOverride()
                             .convertServiceFileName(entityName -> entityName + "Service");
 
                     builder.controllerBuilder()
-                            .enableFileOverride()
+                            // .enableFileOverride()
                             .enableRestStyle();
 
                 }).injectionConfig(builder -> {
