@@ -43,18 +43,19 @@ public class MybatisPlusGenerator {
                 }).strategyConfig(builder -> {
 
                     builder.addInclude("invest_account") // 设置需要生成的表名
-                            .addInclude("invest_fund") // 设置需要生成的表名
-                            .addInclude("invest_account_fund_detail") // 设置需要生成的表名
+                            .addInclude("invest_fund")
+                            .addInclude("invest_turnover")
+                            .addInclude("invest_account_fund_detail")
                             .addTablePrefix("invest_", "c_"); // 设置过滤表前缀
 
                     builder.entityBuilder()
-                            .enableFileOverride()
+                            // .enableFileOverride()
                             .enableLombok()
                             //.addSuperEntityColumns("id", "update_time", "create_time")
                             .superClass(BaseEntity.class);
 
                     builder.mapperBuilder()
-                            .enableFileOverride()
+                            // .enableFileOverride()
                             .superClass(BaseMapper.class)
                             .enableMapperAnnotation();
 
@@ -77,7 +78,7 @@ public class MybatisPlusGenerator {
                     builder.customFile(fileBuilder -> {
                         fileBuilder.fileName("Dto.java")
                                 .templatePath("/templates/dto.java.ftl")
-                                .enableFileOverride()
+                                // .enableFileOverride()
                                 // 配置子包路径，查看/com/baomidou/mybatisplus/generator/engine/AbstractTemplateEngine.java:74  outputCustomFile
                                 .packageName("domain/dto");
                     });
@@ -89,7 +90,7 @@ public class MybatisPlusGenerator {
                     builder.customFile(fileBuilder -> {
                         fileBuilder.fileName("Dao.java")
                                 .templatePath("/templates/dao.java.ftl")
-                                .enableFileOverride()
+                                // .enableFileOverride()
                                 .packageName("dao");
                     });
 

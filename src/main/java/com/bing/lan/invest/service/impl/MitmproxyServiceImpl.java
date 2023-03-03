@@ -2,22 +2,27 @@ package com.bing.lan.invest.service.impl;
 
 import com.bing.lan.invest.domain.dto.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
+import com.bing.lan.invest.domain.dto.TurnoverDto;
 import com.bing.lan.invest.domain.dto.TurnoversBean;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
+import com.bing.lan.invest.service.TurnoverService;
 import com.bing.lan.invest.utils.UrlUtil;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.math.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.unit.DataUnit;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +38,9 @@ public class MitmproxyServiceImpl implements MitmproxyService {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    TurnoverService turnoverService;
 
     @Override
     @Async
@@ -75,6 +83,14 @@ public class MitmproxyServiceImpl implements MitmproxyService {
             for (TurnoversBean.ContentDto contentDto : content) {
                 // log.info("账单数据：{}", contentDto);
                 log.info("acceptTime：{}", format.format(contentDto.getAcceptTime()));
+                TurnoverDto turnoverDto = new TurnoverDto();
+                BeanUtils.copyProperties(contentDto, turnoverDto);
+                turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
+                turnoverDto.setTurnoverId(contentDto.getTurnoverId());
+                turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
+                turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
+                turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
+                turnoverService.saveOrUpdate(turnoverDto);
             }
         }
     }
