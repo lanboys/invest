@@ -1,12 +1,14 @@
-package com.bing.lan.invest.utils;
+package com.bing.lan.invest.spider;
 
 import com.bing.lan.invest.domain.dto.TurnoverDto;
 import com.bing.lan.invest.domain.dto.TurnoversBean;
 import com.bing.lan.invest.service.TurnoverService;
+import com.bing.lan.invest.utils.OkHttpUtil;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.math.*;
 import java.util.*;
@@ -27,39 +29,41 @@ public class Spider {
     @Autowired
     TurnoverService turnoverService;
 
-    public void spiderStart() {
-
+    public void turnoverSpiderStart() {
         // 第一次请求目的是为了获取最早的时间
         // 1520405988000 2018-03-07 14:59:48 000 获取最早的时间
         // 1680278399999 2023-03-31 11:59:59 999 当月最后一天
         String beginTime = "1520405988000";
-        String endTime = "1680278399999";
+        String endTime = null;
         String filterTurnoverIds = null;
-        int pageSize = 100;
+        int pageSize = 1;// 第一次请求一条
+        int count = 0;
+
         while (true) {
-            String request = OkHttpUtil.request(pageSize, beginTime, endTime, filterTurnoverIds);
+
+            String request = OkHttpUtil.requestTurnovers(pageSize, beginTime, endTime, filterTurnoverIds);
+            pageSize = 200;
             TurnoversBean turnoversBean = JSONUtil.toBean(request, TurnoversBean.class);
             List<TurnoversBean.ContentDto> content = turnoversBean.getContent();
-
+            log.info("爬取数量：{}", content.size());
             for (int i = 0; i < content.size(); i++) {
+                count++;
                 TurnoversBean.ContentDto contentDto = content.get(i);
                 if (i == content.size() - 1) {
                     endTime = contentDto.getAcceptTime().toString();
                     filterTurnoverIds = contentDto.getTurnoverId();
                 }
-                log.info("{}", contentDto);
-
+                log.info("流水数据：{}", contentDto);
                 TurnoverDto turnoverDto = new TurnoverDto();
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
                 turnoverDto.setTurnoverId(contentDto.getTurnoverId());
-                try {
+
+                if (!ObjectUtils.isEmpty(contentDto.getAmount())) {
                     turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
-                } catch (Exception e) {
                 }
-                try {
+                if (!ObjectUtils.isEmpty(contentDto.getBalance())) {
                     turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
-                } catch (Exception e) {
                 }
                 turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
                 turnoverService.saveOrUpdate(turnoverDto);
@@ -70,11 +74,11 @@ public class Spider {
             }
 
             try {
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                log.error("睡眠异常", e);
             }
-
         }
+        log.info("爬取结束, 本次爬取数量：{}", count);
     }
 }

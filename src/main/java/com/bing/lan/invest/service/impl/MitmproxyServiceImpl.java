@@ -88,8 +88,12 @@ public class MitmproxyServiceImpl implements MitmproxyService {
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
                 turnoverDto.setTurnoverId(contentDto.getTurnoverId());
-                turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
-                turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
+                if (!ObjectUtils.isEmpty(contentDto.getAmount())) {
+                    turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
+                }
+                if (!ObjectUtils.isEmpty(contentDto.getBalance())) {
+                    turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
+                }
                 turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
                 turnoverService.saveOrUpdate(turnoverDto);
             }

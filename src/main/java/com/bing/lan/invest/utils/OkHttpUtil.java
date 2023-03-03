@@ -1,5 +1,7 @@
 package com.bing.lan.invest.utils;
 
+import org.springframework.util.ObjectUtils;
+
 import java.io.*;
 
 import okhttp3.MediaType;
@@ -16,11 +18,15 @@ public class OkHttpUtil {
 
     public static OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-    public static String request(Integer pageSize, String beginTime, String endTime, String filterTurnoverIds) {
-        String url = "https://qieman.com/pmdj/v2/wallet/turnovers?pageSize=" + pageSize + "&beginTime=" + beginTime + "&endTime" +
-                "=" + endTime + "&paymentMethodId=92dqwqxl3g38&filterTurnoverIds=" + filterTurnoverIds;
+    public static String requestTurnovers(Integer pageSize, String beginTime, String endTime, String filterTurnoverIds) {
 
-        MediaType mediaType = MediaType.parse("text/plain");
+        String url = "https://qieman.com/pmdj/v2/wallet/turnovers?pageSize=" + pageSize;
+
+        // 非第一次请求
+        if (!ObjectUtils.isEmpty(beginTime) && !ObjectUtils.isEmpty(endTime)) {
+            url = url + "&beginTime=" + beginTime + "&endTime=" + endTime + "&paymentMethodId=92dqwqxl3g38&filterTurnoverIds=" + filterTurnoverIds;
+        }
+        // MediaType mediaType = MediaType.parse("text/plain");
         // RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
                 .url(url)
