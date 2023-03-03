@@ -83,6 +83,7 @@ public class MitmproxyServiceImpl implements MitmproxyService {
             for (TurnoversBean.ContentDto contentDto : content) {
                 // log.info("账单数据：{}", contentDto);
                 log.info("acceptTime：{}", format.format(contentDto.getAcceptTime()));
+                log.info("turnoverId：{}", contentDto.getTurnoverId());
                 TurnoverDto turnoverDto = new TurnoverDto();
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
