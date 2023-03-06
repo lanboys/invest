@@ -4,8 +4,10 @@ import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -15,6 +17,37 @@ import okhttp3.Response;
 public class OkHttpUtil {
 
     public static OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+    public static String requestSuishoujiAccountTrans(Integer pageSize, Integer pageIndex) {
+        String content = "opt=bills&interval=-1&onePageNum=" + pageSize + "&bids=423019153534&page=" + pageIndex;
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
+        RequestBody body = RequestBody.create(mediaType, content);
+        Request request = new Request.Builder()
+                .url("https://www.sui.com/account/account.rmi")
+                .method("POST", body)
+                .addHeader("authority", "www.sui.com")
+                .addHeader("accept", "*/*")
+                .addHeader("accept-language", "zh-CN,zh;q=0.9")
+                .addHeader("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
+                .addHeader("cookie", "__vistor=27E3DBE71gtt76xum; SESSION=20d04f7f-8a56-4a04-837b-a1023dba943a; SESSION_COOKIE=d9e21fbbd853e2d89543561dfe485965; __spm_bid=a173a197b68bsb7apbcdb9b01emf1f46; Hm_lvt_3db4e52bb5797afe0faaa2fde5c96ea4=1678064712; __utma=121176714.1803278298.1678064713.1678064713.1678064713.1; __utmc=121176714; __utmz=121176714.1678064713.1.1.utmcsr=cn.bing.com|utmccn=(referral)|utmcmd=referral|utmcct=/; __utmt=1; __nick=lan_bing2013%40163.com; _bookTabSwitchList=1a747bbbd47f95bf70d78bdf7b00061f|0|0&; Hm_lpvt_3db4e52bb5797afe0faaa2fde5c96ea4=1678064868; __utmb=121176714.7.9.1678064870968")
+                .addHeader("origin", "https://www.sui.com")
+                .addHeader("referer", "https://www.sui.com/account/account.do")
+                .addHeader("sec-ch-ua", "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"")
+                .addHeader("sec-ch-ua-mobile", "?0")
+                .addHeader("sec-ch-ua-platform", "\"Windows\"")
+                .addHeader("sec-fetch-dest", "empty")
+                .addHeader("sec-fetch-mode", "cors")
+                .addHeader("sec-fetch-site", "same-origin")
+                .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36")
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static String requestQiemanTurnovers(Integer pageSize, String beginTime, String endTime, String filterTurnoverIds) {
 

@@ -1,7 +1,7 @@
 package com.bing.lan.invest.spider;
 
 import com.bing.lan.invest.domain.dto.TurnoverDto;
-import com.bing.lan.invest.domain.dto.TurnoversBean;
+import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
 import com.bing.lan.invest.service.TurnoverService;
 import com.bing.lan.invest.utils.OkHttpUtil;
 
@@ -43,7 +43,6 @@ public class QiemanSpider {
         int count = 0;
 
         while (true) {
-
             String request = OkHttpUtil.requestQiemanTurnovers(pageSize, beginTime, endTime, filterTurnoverIds);
             pageSize = 200;
             TurnoversBean turnoversBean = JSONUtil.toBean(request, TurnoversBean.class);
@@ -56,7 +55,7 @@ public class QiemanSpider {
                     endTime = contentDto.getAcceptTime().toString();
                     filterTurnoverIds = contentDto.getTurnoverId();
                 }
-                log.info("流水数据：{}", contentDto);
+                log.info("流水数据 {}：{}", i, contentDto);
                 TurnoverDto turnoverDto = new TurnoverDto();
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));

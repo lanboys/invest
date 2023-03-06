@@ -3,7 +3,7 @@ package com.bing.lan.invest.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.bing.lan.invest.dao.AccountDao;
 import com.bing.lan.invest.domain.dto.AccountFundDetailDto;
-import com.bing.lan.invest.domain.dto.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AssertBean;
 import com.bing.lan.invest.domain.dto.FundDto;
 import com.bing.lan.invest.domain.entity.Account;
 import com.bing.lan.invest.domain.entity.Fund;

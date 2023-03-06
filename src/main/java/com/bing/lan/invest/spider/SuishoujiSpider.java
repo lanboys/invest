@@ -1,7 +1,8 @@
 package com.bing.lan.invest.spider;
 
 import com.bing.lan.invest.domain.dto.TurnoverDto;
-import com.bing.lan.invest.domain.dto.TurnoversBean;
+import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
+import com.bing.lan.invest.domain.spider.sui.AccountBean;
 import com.bing.lan.invest.service.TurnoverService;
 import com.bing.lan.invest.utils.OkHttpUtil;
 
@@ -33,51 +34,32 @@ public class SuishoujiSpider {
      * 账号对账
      */
     public void accountStart() {
-        // 第一次请求目的是为了获取最早的时间
-        // 1520405988000 2018-03-07 14:59:48 000 获取最早的时间
-        // 1680278399999 2023-03-31 11:59:59 999 当月最后一天
-        String beginTime = "1520405988000";
-        String endTime = null;
-        String filterTurnoverIds = null;
-        int pageSize = 1;// 第一次请求一条
+        int pageSize = 20;
+        int pageIndex = 1;
+
+        Integer pageCount = 0;
         int count = 0;
 
         while (true) {
+            String request = OkHttpUtil.requestSuishoujiAccountTrans(pageSize, pageIndex);
+            pageIndex++;
 
-            String request = OkHttpUtil.requestQiemanTurnovers(pageSize, beginTime, endTime, filterTurnoverIds);
-            pageSize = 200;
-            TurnoversBean turnoversBean = JSONUtil.toBean(request, TurnoversBean.class);
-            List<TurnoversBean.ContentDto> content = turnoversBean.getContent();
-            log.info("爬取数量：{}", content.size());
-            for (int i = 0; i < content.size(); i++) {
+            AccountBean turnoversBean = JSONUtil.toBean(request, AccountBean.class);
+            pageCount = turnoversBean.getPageCount();
+
+            List<AccountBean.GroupsDto> groups = turnoversBean.getGroups();
+
+            log.info("爬取数量：{}", groups.size());
+            for (int i = 0; i < groups.size(); i++) {
                 count++;
-                TurnoversBean.ContentDto contentDto = content.get(i);
-                if (i == content.size() - 1) {
-                    endTime = contentDto.getAcceptTime().toString();
-                    filterTurnoverIds = contentDto.getTurnoverId();
-                }
-                log.info("流水数据：{}", contentDto);
-                TurnoverDto turnoverDto = new TurnoverDto();
-                BeanUtils.copyProperties(contentDto, turnoverDto);
-                turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
-                turnoverDto.setTurnoverId(contentDto.getTurnoverId());
-
-                if (!ObjectUtils.isEmpty(contentDto.getAmount())) {
-                    turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
-                }
-                if (!ObjectUtils.isEmpty(contentDto.getBalance())) {
-                    turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
-                }
-                turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
-                turnoverService.saveOrUpdate(turnoverDto);
+                AccountBean.GroupsDto contentDto = groups.get(i);
+                log.info("流水数据 {}：{}", i,contentDto);
             }
-
-            if (content.size() == 0) {
+            if (pageIndex > pageCount) {
                 break;
             }
-
             try {
-                TimeUnit.SECONDS.sleep(3);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 log.error("睡眠异常", e);
             }

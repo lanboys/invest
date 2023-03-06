@@ -1,9 +1,9 @@
 package com.bing.lan.invest.service.impl;
 
-import com.bing.lan.invest.domain.dto.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.domain.dto.TurnoverDto;
-import com.bing.lan.invest.domain.dto.TurnoversBean;
+import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
 import com.bing.lan.invest.service.TurnoverService;
@@ -18,12 +18,9 @@ import org.springframework.util.ObjectUtils;
 
 import java.math.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.io.unit.DataUnit;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 

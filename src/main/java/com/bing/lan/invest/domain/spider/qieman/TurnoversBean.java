@@ -1,4 +1,4 @@
-package com.bing.lan.invest.domain.dto;
+package com.bing.lan.invest.domain.spider.qieman;
 
 import java.util.List;
 

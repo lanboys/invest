@@ -1,6 +1,6 @@
 package com.bing.lan.invest.controller;
 
-import com.bing.lan.invest.domain.dto.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
