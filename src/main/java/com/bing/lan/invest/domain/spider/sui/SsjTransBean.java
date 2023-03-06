@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class AccountBean {
+public class SsjTransBean {
 
     private Double income;
     private Integer pageCount;
@@ -29,7 +29,7 @@ public class AccountBean {
 
             private Long account;
             private String buyerAcount;
-            private Long buyerAcountId;
+            private String buyerAcountId;
             private String categoryIcon;
             private Integer categoryId;
             private String categoryName;
@@ -37,17 +37,17 @@ public class AccountBean {
             private Integer currencyAmount;
             private DateDto date;
             private Integer imgId;
-            private Double itemAmount;
+            private String itemAmount;
             private Integer memberId;
             private String memberName;
             private String memo;
-            private Long projectId;
+            private String projectId;
             private String projectName;
             private String relation;
             private String sId;
             private String sellerAcount;
-            private Long sellerAcountId;
-            private Long tranId;
+            private String sellerAcountId;
+            private String tranId;
             private String tranName;
             private Integer tranType;
             private Integer transferStoreId;

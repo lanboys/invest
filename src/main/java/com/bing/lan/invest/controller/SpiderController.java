@@ -1,7 +1,7 @@
 package com.bing.lan.invest.controller;
 
 import com.bing.lan.invest.spider.QiemanSpider;
-import com.bing.lan.invest.spider.SuishoujiSpider;
+import com.bing.lan.invest.spider.SsjSpider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public class SpiderController {
     @Autowired
     QiemanSpider qiemanSpider;
     @Autowired
-    SuishoujiSpider suishoujiSpider;
+    SsjSpider ssjSpider;
 
     @RequestMapping(value = "/qieman/turnover/start")
     public String turnoverStart() {
@@ -33,9 +33,9 @@ public class SpiderController {
         return "ok";
     }
 
-    @RequestMapping(value = "/suishouji/account/start")
+    @RequestMapping(value = "/ssj/account/start")
     public String accountStart() {
-        suishoujiSpider.accountStart();
+        ssjSpider.accountStart();
         return "ok";
     }
 }
