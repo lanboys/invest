@@ -4,10 +4,8 @@ import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -18,7 +16,7 @@ public class OkHttpUtil {
 
     public static OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-    public static String requestTurnovers(Integer pageSize, String beginTime, String endTime, String filterTurnoverIds) {
+    public static String requestQiemanTurnovers(Integer pageSize, String beginTime, String endTime, String filterTurnoverIds) {
 
         String url = "https://qieman.com/pmdj/v2/wallet/turnovers?pageSize=" + pageSize;
 

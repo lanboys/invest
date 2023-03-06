@@ -24,12 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class Spider {
+public class SuishoujiSpider {
 
     @Autowired
     TurnoverService turnoverService;
 
-    public void turnoverSpiderStart() {
+    /**
+     * 账号对账
+     */
+    public void accountStart() {
         // 第一次请求目的是为了获取最早的时间
         // 1520405988000 2018-03-07 14:59:48 000 获取最早的时间
         // 1680278399999 2023-03-31 11:59:59 999 当月最后一天
@@ -41,7 +44,7 @@ public class Spider {
 
         while (true) {
 
-            String request = OkHttpUtil.requestTurnovers(pageSize, beginTime, endTime, filterTurnoverIds);
+            String request = OkHttpUtil.requestQiemanTurnovers(pageSize, beginTime, endTime, filterTurnoverIds);
             pageSize = 200;
             TurnoversBean turnoversBean = JSONUtil.toBean(request, TurnoversBean.class);
             List<TurnoversBean.ContentDto> content = turnoversBean.getContent();

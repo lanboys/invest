@@ -1,10 +1,6 @@
 package com.bing.lan.invest.controller;
 
-import com.bing.lan.invest.spider.Spider;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +18,4 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TurnoverController {
 
-    @Autowired
-    Spider spider;
-
-    @RequestMapping(value = "/spider/start")
-    public String turnoverSpiderStart() {
-        spider.turnoverSpiderStart();
-        return "ok";
-    }
 }
