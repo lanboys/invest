@@ -1,6 +1,6 @@
 package com.bing.lan.invest.controller;
 
-import com.bing.lan.invest.domain.spider.qieman.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
@@ -41,7 +41,7 @@ public class MitmproxyController {
     public String file(@RequestParam MultipartFile file, @RequestParam String accountCode) {
         try {
             byte[] bytes = file.getBytes();
-            AssertBean assertBean = JSONUtil.toBean(new String(bytes), AssertBean.class);
+            AccountAssertBean assertBean = JSONUtil.toBean(new String(bytes), AccountAssertBean.class);
             log.info("资产数据：{}", assertBean);
             accountService.updateAssert(accountCode, assertBean);
         } catch (IOException e) {
@@ -53,10 +53,6 @@ public class MitmproxyController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String upload(@RequestBody MitmproxyDto mitmproxyDto) {
         log.info("mitmproxy url：{}", mitmproxyDto.getUrl());
-        if (!"qieman.com".equals(mitmproxyDto.getHost())) {
-            log.info("skip...");
-            return "skip";
-        }
         mitmproxyService.parseMitmproxyData(mitmproxyDto);
         return "ok";
     }

@@ -1,6 +1,6 @@
 package com.bing.lan.invest.service;
 
-import com.bing.lan.invest.domain.spider.qieman.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
 import com.bing.lan.invest.domain.entity.Account;
 
 /**
@@ -15,6 +15,6 @@ public interface AccountService {
 
     public Account getByAccountCode(String accountCode);
 
-    public void updateAssert(String accountCode, AssertBean assertBean);
+    public void updateAssert(String accountCode, AccountAssertBean assertBean);
 
 }

@@ -1,8 +1,10 @@
 package com.bing.lan.invest.service.impl;
 
-import com.bing.lan.invest.domain.spider.qieman.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.domain.dto.TurnoverDto;
+import com.bing.lan.invest.domain.spider.qieman.AssetDataBean;
+import com.bing.lan.invest.domain.spider.qieman.ProfitRateDataBean;
 import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
@@ -51,13 +53,25 @@ public class MitmproxyServiceImpl implements MitmproxyService {
 
         // 长赢
         if ("https://qieman.com/pmdj/v2/long-win/ca/assets-summary".equals(urlEntity.getUrl())) {
-            AssertBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AssertBean.class);
+            AccountAssertBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AccountAssertBean.class);
             accountService.updateAssert(urlEntity.getParam("capitalAccountId"), assertBean);
             return;
         }
 
         // 周周同行
         if ("https://qieman.com/pmdj/v2/asset/ca/detail".equals(urlEntity.getUrl())) {
+        }
+
+        if ("https://api.qieman.com/pmdj/v2/asset/curve/profit-rate".equals(urlEntity.getUrl())) {
+            log.info("收益率曲线数据：{}", mitmproxyDto);
+            List<ProfitRateDataBean> profitRateDataBeans = JSONUtil.toList(mitmproxyDto.getBody(), ProfitRateDataBean.class);
+            log.info("收益率曲线数据：{}", mitmproxyDto);
+        }
+
+        if ("https://api.qieman.com/pmdj/v2/asset/curve/asset-data".equals(urlEntity.getUrl())) {
+            log.info("资产曲线数据：{}", mitmproxyDto);
+            List<AssetDataBean> assetDataBeans = JSONUtil.toList(mitmproxyDto.getBody(), AssetDataBean.class);
+            log.info("资产曲线数据：{}", mitmproxyDto);
         }
 
         if ("https://qieman.com/pmdj/v2/wallet/turnovers".equals(urlEntity.getUrl())) {

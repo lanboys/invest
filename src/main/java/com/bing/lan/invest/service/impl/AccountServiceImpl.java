@@ -3,7 +3,7 @@ package com.bing.lan.invest.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.bing.lan.invest.dao.AccountDao;
 import com.bing.lan.invest.domain.dto.AccountFundDetailDto;
-import com.bing.lan.invest.domain.spider.qieman.AssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
 import com.bing.lan.invest.domain.dto.FundDto;
 import com.bing.lan.invest.domain.entity.Account;
 import com.bing.lan.invest.domain.entity.Fund;
@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAssert(String accountCode, AssertBean assertBean) {
+    public void updateAssert(String accountCode, AccountAssertBean assertBean) {
         Account account = getByAccountCode(accountCode);
         if (account == null) {
             throw new RuntimeException(accountCode + "账户不存在");
@@ -64,10 +64,10 @@ public class AccountServiceImpl implements AccountService {
 
         accountFundDetailService.resetByAccountId(account.getId());
 
-        for (AssertBean.PlanAssetListDto planAssetListDto : assertBean.getPlanAssetList()) {
-            for (AssertBean.PlanAssetListDto.AssetListDto assetListDto : planAssetListDto.getAssetList()) {
+        for (AccountAssertBean.PlanAssetListDto planAssetListDto : assertBean.getPlanAssetList()) {
+            for (AccountAssertBean.PlanAssetListDto.AssetListDto assetListDto : planAssetListDto.getAssetList()) {
                 log.info("------- 基金数据：{}", assetListDto);
-                AssertBean.PlanAssetListDto.AssetListDto.FundDto listDtoFund = assetListDto.getFund();
+                AccountAssertBean.PlanAssetListDto.AssetListDto.FundDto listDtoFund = assetListDto.getFund();
                 FundDto fundDto = new FundDto();
                 fundDto.setFullName(listDtoFund.getFundName());
                 fundDto.setCode(listDtoFund.getFundCode());

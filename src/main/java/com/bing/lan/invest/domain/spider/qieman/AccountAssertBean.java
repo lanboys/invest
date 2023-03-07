@@ -6,10 +6,12 @@ import lombok.Data;
 
 /**
  * Created by lanbing at 2023/1/29 11:47
+ *
+ * 账户购买基金详情数据
  */
 
 @Data
-public class AssertBean {
+public class AccountAssertBean {
 
     private Integer totalPlanUnit;
     private String totalCustUnit;

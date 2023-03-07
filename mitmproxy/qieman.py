@@ -24,6 +24,8 @@ def response(flow: http.HTTPFlow):
 		
 	white_url_list = ['https://qieman.com/pmdj/v2/long-win/ca/assets-summary',
 	                    'https://qieman.com/pmdj/v2/asset/ca/detail',
+	                    'https://api.qieman.com/pmdj/v2/asset/curve/profit-rate',
+	                    'https://api.qieman.com/pmdj/v2/asset/curve/asset-data',
 	                    'https://qieman.com/pmdj/v2/wallet/turnovers']
 	skip = True
 	for item in white_url_list:
