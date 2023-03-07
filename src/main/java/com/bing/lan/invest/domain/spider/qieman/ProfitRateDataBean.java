@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ProfitRateDataBean {
 
-    private String profitDate;
+    private Long profitDate;
     private String accCost;
     private String totalAsset;
     private Boolean isOpeningAssetsDay;

@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class AssetDataBean {
 
-    private String profitDate;
+    private Long profitDate;
     private String accProfit;
     private String totalAsset;
     private String cumulativeCost;

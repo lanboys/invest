@@ -47,6 +47,8 @@ public class MybatisPlusGenerator {
                             .addInclude("invest_turnover")
                             .addInclude("invest_account_fund_detail")
                             .addInclude("invest_ssj_trans")
+                            .addInclude("invest_asset")
+                            .addInclude("invest_profit_rate")
                             .addTablePrefix("invest_", "c_"); // 设置过滤表前缀
 
                     builder.entityBuilder()

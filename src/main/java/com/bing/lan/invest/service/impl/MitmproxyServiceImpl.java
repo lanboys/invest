@@ -1,5 +1,7 @@
 package com.bing.lan.invest.service.impl;
 
+import com.bing.lan.invest.domain.dto.AssetDto;
+import com.bing.lan.invest.domain.dto.ProfitRateDto;
 import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.domain.dto.TurnoverDto;
@@ -7,7 +9,9 @@ import com.bing.lan.invest.domain.spider.qieman.AssetDataBean;
 import com.bing.lan.invest.domain.spider.qieman.ProfitRateDataBean;
 import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
 import com.bing.lan.invest.service.AccountService;
+import com.bing.lan.invest.service.AssetService;
 import com.bing.lan.invest.service.MitmproxyService;
+import com.bing.lan.invest.service.ProfitRateService;
 import com.bing.lan.invest.service.TurnoverService;
 import com.bing.lan.invest.utils.UrlUtil;
 
@@ -37,9 +41,12 @@ public class MitmproxyServiceImpl implements MitmproxyService {
 
     @Autowired
     AccountService accountService;
-
     @Autowired
     TurnoverService turnoverService;
+    @Autowired
+    AssetService assetService;
+    @Autowired
+    ProfitRateService profitRateService;
 
     @Override
     @Async
@@ -63,15 +70,31 @@ public class MitmproxyServiceImpl implements MitmproxyService {
         }
 
         if ("https://api.qieman.com/pmdj/v2/asset/curve/profit-rate".equals(urlEntity.getUrl())) {
-            log.info("收益率曲线数据：{}", mitmproxyDto);
             List<ProfitRateDataBean> profitRateDataBeans = JSONUtil.toList(mitmproxyDto.getBody(), ProfitRateDataBean.class);
-            log.info("收益率曲线数据：{}", mitmproxyDto);
+            for (ProfitRateDataBean profitRateDataBean : profitRateDataBeans) {
+                log.info("收益率曲线数据：{}", profitRateDataBean);
+                ProfitRateDto dto = new ProfitRateDto();
+                dto.setProfitDate(LocalDateTimeUtil.of(profitRateDataBean.getProfitDate() * 1000).toLocalDate());
+                dto.setAccCost(new BigDecimal(profitRateDataBean.getAccCost()));
+                dto.setTotalAsset(new BigDecimal(profitRateDataBean.getTotalAsset()));
+                dto.setOpeningAssetsDay(profitRateDataBean.getIsOpeningAssetsDay());
+                profitRateService.saveOrUpdate(dto);
+            }
         }
 
         if ("https://api.qieman.com/pmdj/v2/asset/curve/asset-data".equals(urlEntity.getUrl())) {
-            log.info("资产曲线数据：{}", mitmproxyDto);
             List<AssetDataBean> assetDataBeans = JSONUtil.toList(mitmproxyDto.getBody(), AssetDataBean.class);
-            log.info("资产曲线数据：{}", mitmproxyDto);
+            for (AssetDataBean assetDataBean : assetDataBeans) {
+                log.info("资产曲线数据：{}", assetDataBean);
+                AssetDto dto = new AssetDto();
+                dto.setProfitDate(LocalDateTimeUtil.of(assetDataBean.getProfitDate() * 1000).toLocalDate());
+                dto.setAccProfit(new BigDecimal(assetDataBean.getAccProfit()));
+                dto.setTotalAsset(new BigDecimal(assetDataBean.getTotalAsset()));
+                dto.setCumulativeCost(new BigDecimal(assetDataBean.getCumulativeCost()));
+                dto.setInputAmount(new BigDecimal(assetDataBean.getInputAmount()));
+                dto.setOutputAmount(new BigDecimal(assetDataBean.getOutputAmount()));
+                assetService.saveOrUpdate(dto);
+            }
         }
 
         if ("https://qieman.com/pmdj/v2/wallet/turnovers".equals(urlEntity.getUrl())) {
