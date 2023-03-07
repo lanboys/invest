@@ -32,7 +32,7 @@ CREATE TABLE `invest_account_fund_detail`  (
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '基金简称(冗余)',
   `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '基金代码(冗余)',
   `sector` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '行业(冗余)',
-  `total_assert` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓金额',
+  `total_asset` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓金额',
   `holding_profit` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓收益',
   `holding_cost` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓成本',
   `cust_part` decimal(10, 4) NULL DEFAULT NULL COMMENT '持有份数',

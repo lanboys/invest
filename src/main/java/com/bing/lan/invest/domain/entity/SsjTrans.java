@@ -26,7 +26,7 @@ public class SsjTrans extends BaseEntity {
 
     private String tranId;
 
-    private LocalDateTime transTime;
+    private LocalDateTime tranTime;
 
     private BigDecimal amount;
 

@@ -48,7 +48,7 @@ public class AccountFundDetailServiceImpl implements AccountFundDetailService {
         LambdaUpdateWrapper<AccountFundDetail> update = Wrappers.lambdaUpdate(AccountFundDetail.class)
                 .eq(AccountFundDetail::getAccountId, accountId)
                 .set(AccountFundDetail::getCleanFlag, true)
-                .set(AccountFundDetail::getTotalAssert, 0)
+                .set(AccountFundDetail::getTotalAsset, 0)
                 .set(AccountFundDetail::getHoldingProfit, 0)
                 .set(AccountFundDetail::getHoldingCost, 0)
                 .set(AccountFundDetail::getCustPart, 0)

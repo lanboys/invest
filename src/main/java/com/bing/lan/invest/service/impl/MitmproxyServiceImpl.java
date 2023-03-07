@@ -2,7 +2,7 @@ package com.bing.lan.invest.service.impl;
 
 import com.bing.lan.invest.domain.dto.AssetDto;
 import com.bing.lan.invest.domain.dto.ProfitRateDto;
-import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssetBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.domain.dto.TurnoverDto;
 import com.bing.lan.invest.domain.spider.qieman.AssetDataBean;
@@ -60,8 +60,8 @@ public class MitmproxyServiceImpl implements MitmproxyService {
 
         // 长赢
         if ("https://qieman.com/pmdj/v2/long-win/ca/assets-summary".equals(urlEntity.getUrl())) {
-            AccountAssertBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AccountAssertBean.class);
-            accountService.updateAssert(urlEntity.getParam("capitalAccountId"), assertBean);
+            AccountAssetBean assertBean = JSONUtil.toBean(mitmproxyDto.getBody(), AccountAssetBean.class);
+            accountService.updateAsset(urlEntity.getParam("capitalAccountId"), assertBean);
             return;
         }
 

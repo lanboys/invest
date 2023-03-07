@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class AccountAssertBean {
+public class AccountAssetBean {
 
     private Integer totalPlanUnit;
     private String totalCustUnit;

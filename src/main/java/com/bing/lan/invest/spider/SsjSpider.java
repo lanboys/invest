@@ -59,7 +59,7 @@ public class SsjSpider {
                     SsjTransBean.GroupsDto.ListDto.DateDto date = listDto.getDate();
                     SsjTransDto ssjTransDto = new SsjTransDto();
                     BeanUtils.copyProperties(listDto, ssjTransDto);
-                    ssjTransDto.setTransTime(LocalDateTimeUtil.of(date.getTime()));
+                    ssjTransDto.setTranTime(LocalDateTimeUtil.of(date.getTime()));
                     ssjTransDto.setAmount(new BigDecimal(listDto.getItemAmount()));
 
                     ssjTransDto.setBuyerAccount(listDto.getBuyerAcount());

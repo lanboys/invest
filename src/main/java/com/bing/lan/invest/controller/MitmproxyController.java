@@ -1,6 +1,6 @@
 package com.bing.lan.invest.controller;
 
-import com.bing.lan.invest.domain.spider.qieman.AccountAssertBean;
+import com.bing.lan.invest.domain.spider.qieman.AccountAssetBean;
 import com.bing.lan.invest.domain.dto.MitmproxyDto;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.MitmproxyService;
@@ -41,9 +41,9 @@ public class MitmproxyController {
     public String file(@RequestParam MultipartFile file, @RequestParam String accountCode) {
         try {
             byte[] bytes = file.getBytes();
-            AccountAssertBean assertBean = JSONUtil.toBean(new String(bytes), AccountAssertBean.class);
+            AccountAssetBean assertBean = JSONUtil.toBean(new String(bytes), AccountAssetBean.class);
             log.info("资产数据：{}", assertBean);
-            accountService.updateAssert(accountCode, assertBean);
+            accountService.updateAsset(accountCode, assertBean);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -27,7 +27,7 @@ CREATE TABLE `invest_account`  (
   `platform_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '平台',
   `account_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '投资账户名称',
   `portfolio_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '投资组合',
-  `total_assert` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓金额',
+  `total_asset` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓金额',
   `holding_profit` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓收益',
   `holding_cost` decimal(10, 2) NULL DEFAULT NULL COMMENT '持仓成本',
   `cust_part` decimal(10, 4) NULL DEFAULT NULL COMMENT '持有份数',

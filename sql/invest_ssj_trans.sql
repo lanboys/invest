@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `invest_ssj_trans`;
 CREATE TABLE `invest_ssj_trans`  (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `tran_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `trans_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tran_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `amount` decimal(10, 2) NULL DEFAULT NULL,
   `buyer_account` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `buyer_account_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,

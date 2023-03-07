@@ -53,7 +53,7 @@ public class AccountFundDetail extends BaseEntity {
     private String sector;
 
     @ApiModelProperty("持仓金额")
-    private BigDecimal totalAssert;
+    private BigDecimal totalAsset;
 
     @ApiModelProperty("持仓收益")
     private BigDecimal holdingProfit;
