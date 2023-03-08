@@ -3,6 +3,7 @@ package com.bing.lan.invest.spider;
 import com.bing.lan.invest.domain.dto.TurnoverDto;
 import com.bing.lan.invest.domain.spider.qieman.TurnoversBean;
 import com.bing.lan.invest.service.TurnoverService;
+import com.bing.lan.invest.utils.BigDecimalUtil;
 import com.bing.lan.invest.utils.OkHttpUtil;
 
 import org.springframework.beans.BeanUtils;
@@ -60,13 +61,8 @@ public class QiemanSpider {
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
                 turnoverDto.setTurnoverId(contentDto.getTurnoverId());
-
-                if (!ObjectUtils.isEmpty(contentDto.getAmount())) {
-                    turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
-                }
-                if (!ObjectUtils.isEmpty(contentDto.getBalance())) {
-                    turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
-                }
+                turnoverDto.setAmount(BigDecimalUtil.objToBigDecimal(contentDto.getAmount()));
+                turnoverDto.setBalance(BigDecimalUtil.objToBigDecimal(contentDto.getBalance()));
                 turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
                 turnoverService.saveOrUpdate(turnoverDto);
             }

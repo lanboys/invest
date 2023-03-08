@@ -4,6 +4,7 @@ import com.bing.lan.invest.domain.dto.SsjTransDto;
 import com.bing.lan.invest.domain.spider.sui.SsjTransBean;
 import com.bing.lan.invest.service.SsjTransService;
 import com.bing.lan.invest.service.TurnoverService;
+import com.bing.lan.invest.utils.BigDecimalUtil;
 import com.bing.lan.invest.utils.OkHttpUtil;
 
 import org.springframework.beans.BeanUtils;
@@ -60,8 +61,7 @@ public class SsjSpider {
                     SsjTransDto ssjTransDto = new SsjTransDto();
                     BeanUtils.copyProperties(listDto, ssjTransDto);
                     ssjTransDto.setTranTime(LocalDateTimeUtil.of(date.getTime()));
-                    ssjTransDto.setAmount(new BigDecimal(listDto.getItemAmount()));
-
+                    ssjTransDto.setAmount(BigDecimalUtil.objToBigDecimal(listDto.getItemAmount()));
                     ssjTransDto.setBuyerAccount(listDto.getBuyerAcount());
                     ssjTransDto.setBuyerAccountId(listDto.getBuyerAcountId());
                     ssjTransDto.setSellerAccount(listDto.getSellerAcount());

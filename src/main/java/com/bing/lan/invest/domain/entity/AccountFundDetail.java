@@ -73,6 +73,9 @@ public class AccountFundDetail extends BaseEntity {
     @ApiModelProperty("持有单价")
     private BigDecimal custUnitValue;
 
+    @ApiModelProperty("计划单价")
+    private BigDecimal planUnitValue;
+
     @ApiModelProperty("基金净值(冗余)")
     private BigDecimal fundNav;
 

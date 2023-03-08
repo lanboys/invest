@@ -39,6 +39,7 @@ CREATE TABLE `invest_account_fund_detail`  (
   `plan_part` decimal(10, 0) NULL DEFAULT NULL COMMENT '计划份数',
   `total_share` decimal(10, 2) NULL DEFAULT NULL COMMENT '持有份额',
   `cust_unit_value` decimal(10, 4) NULL DEFAULT NULL COMMENT '持有单价',
+  `plan_unit_value` decimal(10, 4) NULL DEFAULT NULL COMMENT '计划单价',
   `fund_nav` decimal(10, 4) NULL DEFAULT NULL COMMENT '基金净值(冗余)',
   `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

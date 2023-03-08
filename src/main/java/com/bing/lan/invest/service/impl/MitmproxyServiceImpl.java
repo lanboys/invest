@@ -13,6 +13,7 @@ import com.bing.lan.invest.service.AssetService;
 import com.bing.lan.invest.service.MitmproxyService;
 import com.bing.lan.invest.service.ProfitRateService;
 import com.bing.lan.invest.service.TurnoverService;
+import com.bing.lan.invest.utils.BigDecimalUtil;
 import com.bing.lan.invest.utils.UrlUtil;
 
 import org.springframework.beans.BeanUtils;
@@ -75,8 +76,8 @@ public class MitmproxyServiceImpl implements MitmproxyService {
                 log.info("收益率曲线数据：{}", profitRateDataBean);
                 ProfitRateDto dto = new ProfitRateDto();
                 dto.setProfitDate(LocalDateTimeUtil.of(profitRateDataBean.getProfitDate() * 1000).toLocalDate());
-                dto.setAccCost(new BigDecimal(profitRateDataBean.getAccCost()));
-                dto.setTotalAsset(new BigDecimal(profitRateDataBean.getTotalAsset()));
+                dto.setAccCost(BigDecimalUtil.objToBigDecimal(profitRateDataBean.getAccCost()));
+                dto.setTotalAsset(BigDecimalUtil.objToBigDecimal(profitRateDataBean.getTotalAsset()));
                 dto.setOpeningAssetsDay(profitRateDataBean.getIsOpeningAssetsDay());
                 profitRateService.saveOrUpdate(dto);
             }
@@ -88,11 +89,11 @@ public class MitmproxyServiceImpl implements MitmproxyService {
                 log.info("资产曲线数据：{}", assetDataBean);
                 AssetDto dto = new AssetDto();
                 dto.setProfitDate(LocalDateTimeUtil.of(assetDataBean.getProfitDate() * 1000).toLocalDate());
-                dto.setAccProfit(new BigDecimal(assetDataBean.getAccProfit()));
-                dto.setTotalAsset(new BigDecimal(assetDataBean.getTotalAsset()));
-                dto.setCumulativeCost(new BigDecimal(assetDataBean.getCumulativeCost()));
-                dto.setInputAmount(new BigDecimal(assetDataBean.getInputAmount()));
-                dto.setOutputAmount(new BigDecimal(assetDataBean.getOutputAmount()));
+                dto.setAccProfit(BigDecimalUtil.objToBigDecimal(assetDataBean.getAccProfit()));
+                dto.setTotalAsset(BigDecimalUtil.objToBigDecimal(assetDataBean.getTotalAsset()));
+                dto.setCumulativeCost(BigDecimalUtil.objToBigDecimal(assetDataBean.getCumulativeCost()));
+                dto.setInputAmount(BigDecimalUtil.objToBigDecimal(assetDataBean.getInputAmount()));
+                dto.setOutputAmount(BigDecimalUtil.objToBigDecimal(assetDataBean.getOutputAmount()));
                 assetService.saveOrUpdate(dto);
             }
         }
@@ -122,12 +123,8 @@ public class MitmproxyServiceImpl implements MitmproxyService {
                 BeanUtils.copyProperties(contentDto, turnoverDto);
                 turnoverDto.setAcceptTime(LocalDateTimeUtil.of(contentDto.getAcceptTime()));
                 turnoverDto.setTurnoverId(contentDto.getTurnoverId());
-                if (!ObjectUtils.isEmpty(contentDto.getAmount())) {
-                    turnoverDto.setAmount(new BigDecimal(contentDto.getAmount()));
-                }
-                if (!ObjectUtils.isEmpty(contentDto.getBalance())) {
-                    turnoverDto.setBalance(new BigDecimal(contentDto.getBalance()));
-                }
+                turnoverDto.setAmount(BigDecimalUtil.objToBigDecimal(contentDto.getAmount()));
+                turnoverDto.setBalance(BigDecimalUtil.objToBigDecimal(contentDto.getBalance()));
                 turnoverDto.setIncomeFlag(contentDto.getIsIncome() ? 1 : 0);
                 turnoverService.saveOrUpdate(turnoverDto);
             }

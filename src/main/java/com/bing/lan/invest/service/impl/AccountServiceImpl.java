@@ -10,6 +10,7 @@ import com.bing.lan.invest.domain.entity.Fund;
 import com.bing.lan.invest.service.AccountFundDetailService;
 import com.bing.lan.invest.service.AccountService;
 import com.bing.lan.invest.service.FundService;
+import com.bing.lan.invest.utils.BigDecimalUtil;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -55,11 +56,11 @@ public class AccountServiceImpl implements AccountService {
             throw new RuntimeException(accountCode + "账户不存在");
         }
         // 更新账户总资产
-        account.setTotalAsset(new BigDecimal(assertBean.getTotalAsset()));
-        account.setHoldingProfit(new BigDecimal(assertBean.getHoldingProfit()));
+        account.setTotalAsset(BigDecimalUtil.objToBigDecimal(assertBean.getTotalAsset()));
+        account.setHoldingProfit(BigDecimalUtil.objToBigDecimal(assertBean.getHoldingProfit()));
         account.setHoldingCost(account.getTotalAsset().subtract(account.getHoldingProfit()));
-        account.setCustPart(new BigDecimal(assertBean.getTotalCustUnit()));
-        account.setPlanPart(new BigDecimal(assertBean.getTotalPlanUnit()));
+        account.setCustPart(BigDecimalUtil.objToBigDecimal(assertBean.getTotalCustUnit()));
+        account.setPlanPart(BigDecimalUtil.objToBigDecimal(assertBean.getTotalPlanUnit()));
         dao.saveOrUpdate(account);
 
         accountFundDetailService.resetByAccountId(account.getId());
@@ -72,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
                 fundDto.setFullName(listDtoFund.getFundName());
                 fundDto.setCode(listDtoFund.getFundCode());
                 fundDto.setName(assetListDto.getVariety());
-                fundDto.setNav(new BigDecimal(listDtoFund.getNav()));
+                fundDto.setNav(BigDecimalUtil.objToBigDecimal(listDtoFund.getNav()));
                 fundDto.setNavDate(LocalDateTimeUtil.parseDate(listDtoFund.getNavDate(), DateTimeFormatter.ISO_LOCAL_DATE));
 
                 Fund fund = fundService.saveOrUpdate(fundDto);
@@ -88,13 +89,14 @@ public class AccountServiceImpl implements AccountService {
                 accountFundDetailDto.setFundNav(fund.getNav());
 
                 // 更新单只基金资产
-                accountFundDetailDto.setTotalAsset(new BigDecimal(assetListDto.getTotalAsset()));
-                accountFundDetailDto.setHoldingProfit(new BigDecimal(assetListDto.getHoldingProfit()));
+                accountFundDetailDto.setTotalAsset(BigDecimalUtil.objToBigDecimal(assetListDto.getTotalAsset()));
+                accountFundDetailDto.setHoldingProfit(BigDecimalUtil.objToBigDecimal(assetListDto.getHoldingProfit()));
                 accountFundDetailDto.setHoldingCost(accountFundDetailDto.getTotalAsset().subtract(accountFundDetailDto.getHoldingProfit()));
-                accountFundDetailDto.setTotalShare(new BigDecimal(assetListDto.getTotalShare()));
-                accountFundDetailDto.setCustUnitValue(new BigDecimal(assetListDto.getCustUnitValue()));
-                accountFundDetailDto.setCustPart(new BigDecimal(assetListDto.getCustUnit()));
-                accountFundDetailDto.setPlanPart(new BigDecimal(assetListDto.getPlanUnit()));
+                accountFundDetailDto.setTotalShare(BigDecimalUtil.objToBigDecimal(assetListDto.getTotalShare()));
+                accountFundDetailDto.setCustUnitValue(BigDecimalUtil.objToBigDecimal(assetListDto.getCustUnitValue()));
+                accountFundDetailDto.setPlanUnitValue(BigDecimalUtil.objToBigDecimal(assetListDto.getPlanUnitValue()));
+                accountFundDetailDto.setCustPart(BigDecimalUtil.objToBigDecimal(assetListDto.getCustUnit()));
+                accountFundDetailDto.setPlanPart(BigDecimalUtil.objToBigDecimal(assetListDto.getPlanUnit()));
                 accountFundDetailDto.setCleanFlag(accountFundDetailDto.getCustPart().compareTo(BigDecimal.ZERO) == 0);
 
                 accountFundDetailService.saveOrUpdate(accountFundDetailDto);

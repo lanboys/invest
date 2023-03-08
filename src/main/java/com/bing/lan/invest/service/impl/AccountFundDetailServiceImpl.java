@@ -55,7 +55,8 @@ public class AccountFundDetailServiceImpl implements AccountFundDetailService {
                 .set(AccountFundDetail::getPlanPart, 0)
                 .set(AccountFundDetail::getTotalShare, 0)
                 .set(AccountFundDetail::getFundNav, 0)
-                .set(AccountFundDetail::getCustUnitValue, 0);
+                .set(AccountFundDetail::getCustUnitValue, 0)
+                .set(AccountFundDetail::getPlanUnitValue, 0);
 
         return dao.update(update);
     }
